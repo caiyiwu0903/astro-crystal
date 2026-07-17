@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /astro-crystal/admin.html
 
+Sitemap: https://caiyiwu0903.github.io/astro-crystal/sitemap.xml
