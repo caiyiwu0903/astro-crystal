@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>線上預約與課程報名｜放心占星相談所</title>
+    <meta name="description" content="線上填寫星盤諮詢預約或古典占星專業解盤師養成班報名資料，星心老師確認需求後將透過指定方式聯絡。">
+    <meta name="theme-color" content="#fbf9f5">
+    <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="assets/js/supabase-config.js" defer></script>
+    <script src="assets/js/booking.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <header class="site-header">
+      <nav class="nav container" aria-label="主要導覽">
+        <a class="brand" href="index.html" aria-label="放心占星相談所首頁">
+          <img class="brand__mark" src="assets/images/xingxin-avatar-circle.png" alt="" width="48" height="48">
+          <span class="brand__text"><span class="brand__name">放心占星相談所</span><span class="brand__sub">Astro Crystal・星心</span></span>
+        </a>
+        <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="開啟選單"><span></span><span></span><span></span></button>
+        <ul class="nav__links" id="primary-menu" data-open="false">
+          <li><a href="index.html">首頁</a></li>
+          <li><a href="course.html">專業課程</a></li>
+          <li><a href="consultation.html">星盤諮詢</a></li>
+          <li><a href="about.html">關於星心</a></li>
+          <li><a class="button button--primary button--small" href="https://lin.ee/jexAA3J" target="_blank" rel="noopener noreferrer">LINE 聯絡</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="page-hero page-hero--compact">
+        <div class="narrow center">
+          <span class="eyebrow">Secure Booking</span>
+          <h1>預約與報名</h1>
+          <p class="lead">請選擇服務並填寫資料。送出後，星心老師會透過你指定的方式回覆；實際時間與付款確認完成後，預約或報名才正式成立。</p>
+        </div>
+      </section>
+
+      <section class="section section--compact booking-section">
+        <div class="narrow">
+          <div class="booking-tabs" role="tablist" aria-label="選擇預約類型">
+            <button type="button" role="tab" data-booking-tab="consultation" aria-controls="consultation-panel">星盤諮詢</button>
+            <button type="button" role="tab" data-booking-tab="course" aria-controls="course-panel">專業課程</button>
+          </div>
+
+          <section class="booking-panel" id="consultation-panel" role="tabpanel" data-booking-panel="consultation">
+            <div class="form-heading">
+              <div><span class="eyebrow">Consultation</span><h2>星盤諮詢預約</h2></div>
+              <p><strong>NT$3,800／60 分鐘</strong><br><span class="muted">線上 Google Meet 或台北實體。萬事可問；不接受生死問題，第三人議題須經本人同意。</span></p>
+            </div>
+            <form class="booking-form" data-booking-form data-form-type="consultation">
+              <input type="hidden" name="form_started_at" value="">
+              <div class="form-trap" aria-hidden="true"><label>網站<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+              <div class="form-grid">
+                <label>姓名<span aria-hidden="true">＊</span><input name="full_name" type="text" autocomplete="name" maxlength="100" required></label>
+                <label>希望聯絡方式<span aria-hidden="true">＊</span><select name="contact_channel" required><option value="">請選擇</option><option value="line">LINE</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="email">Email</option></select></label>
+                <label class="form-grid__wide">聯絡帳號或 Email<span aria-hidden="true">＊</span><input name="contact_value" type="text" maxlength="255" aria-describedby="consultation-contact-help" required><small id="consultation-contact-help">請填寫能讓老師找到你的完整帳號或 Email。</small></label>
+                <fieldset class="form-grid__wide"><legend>諮詢形式<span aria-hidden="true">＊</span></legend><div class="choice-row"><label><input name="consultation_mode" type="radio" value="online" required> 線上 Google Meet</label><label><input name="consultation_mode" type="radio" value="in_person"> 台北實體</label></div></fieldset>
+                <label>出生日期<input name="birth_date" type="date"></label>
+                <label>出生時間<input name="birth_time" type="time" step="60"></label>
+                <fieldset class="form-grid__wide"><legend>出生時間準確度</legend><div class="choice-row"><label><input name="birth_time_is_exact" type="radio" value="true" checked> 可確認至分鐘</label><label><input name="birth_time_is_exact" type="radio" value="false"> 不確定／不知道</label></div><small>若無法確認出生時間，可再與老師討論改用占卜或卜卦。</small></fieldset>
+                <label class="form-grid__wide">出生地點<input name="birth_place" type="text" maxlength="255" placeholder="例如：台北市"></label>
+                <label class="form-grid__wide">想詢問的問題<span aria-hidden="true">＊</span><textarea name="question" rows="5" minlength="5" maxlength="3000" placeholder="請先寫下最希望釐清的主題；萬事可問。" required></textarea></label>
+                <label class="form-grid__wide">方便諮詢的日期與時段<span aria-hidden="true">＊</span><textarea name="preferred_dates" rows="3" minlength="2" maxlength="1000" placeholder="建議提供 2～3 個可配合的日期與時段。" required></textarea></label>
+              </div>
+              <label class="consent-row"><input name="consent" type="checkbox" required> 我已閱讀並同意<a href="privacy.html" target="_blank">隱私與服務聲明</a>，同意將以上資料用於安排本次服務。</label>
+              <p class="form-status" data-form-status data-state="" role="status" aria-live="polite" tabindex="-1"></p>
+              <div class="form-actions"><button class="button button--primary" type="submit">安全送出諮詢預約</button><a class="button button--outline" href="https://lin.ee/jexAA3J" target="_blank" rel="noopener noreferrer">改用 LINE 聯絡</a></div>
+            </form>
+          </section>
+
+          <section class="booking-panel" id="course-panel" role="tabpanel" data-booking-panel="course" hidden>
+            <div class="form-heading">
+              <div><span class="eyebrow">Professional Program</span><h2>專業課程報名</h2></div>
+              <p><strong>古典占星專業解盤師養成班</strong><br><span class="muted">NT$56,000／50 小時。送出資料後，老師會依招生、時段與形式確認是否開課。</span></p>
+            </div>
+            <form class="booking-form" data-booking-form data-form-type="course">
+              <input type="hidden" name="form_started_at" value="">
+              <div class="form-trap" aria-hidden="true"><label>網站<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+              <div class="form-grid">
+                <label>姓名<span aria-hidden="true">＊</span><input name="full_name" type="text" autocomplete="name" maxlength="100" required></label>
+                <label>希望聯絡方式<span aria-hidden="true">＊</span><select name="contact_channel" required><option value="">請選擇</option><option value="line">LINE</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="email">Email</option></select></label>
+                <label class="form-grid__wide">聯絡帳號或 Email<span aria-hidden="true">＊</span><input name="contact_value" type="text" maxlength="255" required></label>
+                <label class="form-grid__wide">占星學習背景<span aria-hidden="true">＊</span><textarea name="astrology_background" rows="4" minlength="2" maxlength="2000" placeholder="完全沒基礎也可以，請如實說明目前的學習經驗與目標。" required></textarea></label>
+                <label class="form-grid__wide">想參加的授課形式<span aria-hidden="true">＊</span><select name="preferred_format" required><option value="">請選擇</option><option value="online_group">線上課程</option><option value="taipei_group">台北實體小班（6 人以下）</option><option value="in_person_one_to_one">實體一對一</option><option value="online_one_to_one">線上一對一</option><option value="recorded">獨立完整錄播課程（價格另訂）</option></select></label>
+                <label class="form-grid__wide">可以上課的日期與時段<span aria-hidden="true">＊</span><textarea name="available_dates" rows="3" minlength="2" maxlength="1000" placeholder="例如：平日晚間、週六下午；也可列出希望一週一次或兩次。" required></textarea></label>
+                <label class="form-grid__wide">其他想說明的內容<textarea name="message" rows="4" maxlength="3000" placeholder="學習目標、特別需求或想先詢問的問題。"></textarea></label>
+              </div>
+              <label class="consent-row"><input name="consent" type="checkbox" required> 我已閱讀並同意<a href="privacy.html" target="_blank">隱私與服務聲明</a>，同意將以上資料用於回覆與安排課程。</label>
+              <p class="form-status" data-form-status data-state="" role="status" aria-live="polite" tabindex="-1"></p>
+              <div class="form-actions"><button class="button button--primary" type="submit">安全送出課程報名</button><a class="button button--outline" href="https://lin.ee/jexAA3J" target="_blank" rel="noopener noreferrer">改用 LINE 聯絡</a></div>
+            </form>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container"><div class="footer__grid"><div class="footer__brand"><p class="footer__title">放心占星相談所</p><p>專業、平靜而溫暖的古典占星學習與諮詢空間。</p></div><div><p class="footer__title">網站導覽</p><ul class="footer__links"><li><a href="index.html">首頁</a></li><li><a href="course.html">專業課程</a></li><li><a href="consultation.html">星盤諮詢</a></li><li><a href="privacy.html">隱私與服務聲明</a></li></ul></div><div><p class="footer__title">聯絡方式</p><ul class="footer__links"><li><a href="https://lin.ee/jexAA3J" target="_blank" rel="noopener noreferrer">LINE 官方帳號</a></li><li><a href="https://www.instagram.com/astrol_crystal/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="mailto:caiyiwu0903@gmail.com">Email</a></li></ul></div></div><div class="footer__bottom"><span>© <span data-year></span> 放心占星相談所</span><span>本頁不收取款項；服務成立仍以雙方確認為準。</span></div></div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>預約管理｜放心占星相談所</title>
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <meta name="theme-color" content="#fbf9f5">
+    <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="assets/js/supabase-config.js" defer></script>
+    <script src="assets/js/admin.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <header class="site-header"><nav class="nav container" aria-label="管理導覽"><a class="brand" href="index.html"><img class="brand__mark" src="assets/images/xingxin-avatar-circle.png" alt="" width="48" height="48"><span class="brand__text"><span class="brand__name">放心占星相談所</span><span class="brand__sub">預約管理</span></span></a><a class="button button--outline button--small" href="index.html">回到網站</a></nav></header>
+    <main id="main" class="admin-main">
+      <section class="section section--compact">
+        <div class="narrow">
+          <div class="admin-login card" data-admin-login>
+            <span class="eyebrow">Private Admin</span>
+            <h1>管理者登入</h1>
+            <p class="lead">只有星心老師指定的 Email 可以查看預約資料。系統會寄出一次性安全登入連結，不需要設定密碼。</p>
+            <form data-admin-login-form><p><strong>管理者 Email</strong><br>caiyiwu0903@gmail.com</p><button class="button button--primary" type="submit">寄送安全登入連結</button><p class="form-status" data-admin-login-status role="status" aria-live="polite"></p></form>
+          </div>
+
+          <div data-admin-dashboard hidden>
+            <div class="admin-toolbar">
+              <div><span class="eyebrow">Booking Admin</span><h1>預約與報名管理</h1></div>
+              <div class="button-row"><button class="button button--outline button--small" type="button" data-admin-refresh>重新整理</button><button class="button button--outline button--small" type="button" data-admin-signout>登出</button></div>
+            </div>
+            <div class="admin-filters" aria-label="資料類型"><button type="button" data-admin-filter="consultation" aria-pressed="true">星盤諮詢</button><button type="button" data-admin-filter="course" aria-pressed="false">專業課程</button></div>
+            <div class="admin-list" data-admin-list aria-live="polite">載入中…</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
