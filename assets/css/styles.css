@@ -412,6 +412,8 @@ h3 {
   margin-inline: auto;
   object-fit: contain;
   filter: drop-shadow(0 22px 25px rgba(65, 54, 44, 0.12));
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
 }
 
 .hero__note {
