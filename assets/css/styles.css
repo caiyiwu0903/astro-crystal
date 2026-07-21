@@ -405,8 +405,11 @@ h3 {
 }
 
 .hero__image {
-  width: 100%;
-  aspect-ratio: 1;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: clamp(430px, 48vw, 600px);
+  margin-inline: auto;
   object-fit: contain;
   filter: drop-shadow(0 22px 25px rgba(65, 54, 44, 0.12));
 }
