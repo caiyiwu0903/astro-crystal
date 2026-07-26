@@ -521,6 +521,14 @@ h3 {
   box-shadow: none;
 }
 
+.section--sage .card--flat {
+  color: var(--ink);
+}
+
+.section--sage .card--flat .muted {
+  color: #544d46;
+}
+
 .card--featured {
   background: var(--sage-deep);
   color: var(--white);
