@@ -15,7 +15,7 @@
 
 ## GitHub Pages
 
-- 正式網站：<https://caiyiwu0903.github.io/astro-crystal/>
+- 正式網站：<https://astro-crystal.pages.dev/>
 - 預約表單：`booking.html`
 - 管理頁：`admin.html`（僅指定管理者 Email 可登入）
 
