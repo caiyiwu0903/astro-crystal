@@ -32,6 +32,7 @@ immutable
 set search_path = ''
 as $$
   select p_slug = any (array[
+    'my-zodiac-sign-does-not-fit-me',
     'why-ancients-believed-astrology',
     'what-is-rising-sign',
     'how-to-read-natal-chart',
