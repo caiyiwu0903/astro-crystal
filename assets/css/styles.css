@@ -862,11 +862,15 @@ h3 {
 }
 
 .articles-hero {
-  padding-block: clamp(48px, 7vw, 72px);
+  padding-block: clamp(36px, 5vw, 56px);
 }
 
 .articles-hero h1 {
   font-size: clamp(2.1rem, 5vw, 3.4rem);
+}
+
+.articles-hero + .section {
+  padding-top: clamp(52px, 6vw, 76px);
 }
 
 .notice {
