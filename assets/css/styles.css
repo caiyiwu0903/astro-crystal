@@ -823,6 +823,30 @@ h3 {
   font-size: clamp(2.4rem, 6vw, 4.4rem);
 }
 
+.card__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 18px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.card__stats span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.card__stats span + span::before {
+  width: 3px;
+  height: 3px;
+  margin-right: 16px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+  opacity: 0.55;
+}
+
 .articles-hero {
   padding-block: clamp(48px, 7vw, 72px);
 }
