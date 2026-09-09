@@ -826,25 +826,39 @@ h3 {
 .card__stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 16px;
+  gap: 8px;
   margin: 18px 0 0;
   color: var(--ink-soft);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
 }
 
-.card__stats span {
+.article-stat {
   display: inline-flex;
   align-items: center;
+  min-height: 30px;
+  padding: 4px 10px 4px 6px;
+  border: 1px solid rgba(88, 112, 100, 0.16);
+  border-radius: 999px;
+  background: rgba(145, 166, 154, 0.08);
+  line-height: 1.25;
+  white-space: nowrap;
 }
 
-.card__stats span + span::before {
-  width: 3px;
-  height: 3px;
-  margin-right: 16px;
-  border-radius: 50%;
-  background: currentColor;
-  content: "";
-  opacity: 0.55;
+.article-stat__label {
+  margin-right: 7px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  color: var(--sage-deep);
+  background: rgba(145, 166, 154, 0.16);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.article-stat strong {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
 }
 
 .articles-hero {
