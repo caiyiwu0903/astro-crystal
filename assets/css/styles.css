@@ -238,7 +238,7 @@ h3 {
 
 .nav__links {
   display: flex;
-  gap: 26px;
+  gap: 16px;
   align-items: center;
   margin: 0;
   padding: 0;
@@ -1059,7 +1059,7 @@ h3 {
   }
 
   .nav__links[data-open="true"] {
-    max-height: 440px;
+    max-height: 520px;
     padding: 12px 20px 22px;
     border-bottom-color: var(--line);
     opacity: 1;
@@ -1287,7 +1287,7 @@ h3 {
 
 .site-nav {
   display: flex;
-  gap: 26px;
+  gap: 16px;
   align-items: center;
 }
 

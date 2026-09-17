@@ -73,7 +73,7 @@ async function run(type, options, name) {
       assert.equal(await page.locator('#cards-result').isVisible(), false);
       assert.ok((await page.locator('#cards-status').textContent()).includes('無效'));
       await page.goto(base + '/index.html');
-      assert.equal(await page.locator('a[href="astro-cards.html"]').count(), 1);
+      assert.equal(await page.locator('a[href="astro-cards.html"]').count(), 2);
       assert.ok((await page.locator('h1').textContent()).includes('讀懂你的人生地圖'));
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       await context.close();
