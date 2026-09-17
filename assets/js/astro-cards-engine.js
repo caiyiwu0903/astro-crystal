@@ -56,6 +56,15 @@
     love: [null, "你提出的關係問題", "自己的期待，與互動中能觀察到的回應", "先說清楚一項自己的需要，也留空間聽對方的想法"],
     career: [null, "你提出的工作問題", "想達成的目標，與目前可調整的條件", "挑一個能取得實際資訊的步驟，幫助自己評估"]
   };
+  function suggestMode(question, currentMode) {
+    const q = limitQuestion(question).trim();
+    // Require a clear subject. Mixed subjects and broad everyday wording stay silent.
+    const love = /告白|暗戀|戀愛|感情|分手|復合|前任|結婚|婚姻|伴侶|男友|女友|男朋友|女朋友|脫單|桃花|喜歡(?:上|的)?(?:一個人|他|她|同事|主管|朋友)/.test(q);
+    const career = /(?:換|找)工作|轉職|離職|跳槽|求職|面試|履歷|升遷|加薪|薪水|待遇|創業|接案|職涯|生涯|工作(?:壓力|方向|內容)|(?:主管|老闆|同事).*(?:溝通|合作|要求)|(?:溝通|合作).*(?:主管|老闆|同事)/.test(q);
+    if (love === career) return null;
+    const suggested = love ? "love" : "career";
+    return suggested === currentMode ? null : suggested;
+  }
   function interpret(selection, question = "") {
     const cards = resolve(selection);
     if (!cards) throw new Error("Invalid card selection");
@@ -97,5 +106,5 @@
     return ["放心占星牌卡｜" + result.mode, result.cards.map(card => card.name).join(" × "), result.title,
       ...(result.asked ? ["我的問題：" + result.asked] : []), ...result.paragraphs, "放心提醒：" + result.reminder, "自我提問：" + result.question, url(selection, base)].join("\n\n");
   }
-  window.AstroCardsEngine = Object.freeze({ readQuery, draw, interpret, url, text, limitQuestion });
+  window.AstroCardsEngine = Object.freeze({ readQuery, draw, interpret, url, text, limitQuestion, suggestMode });
 }());
