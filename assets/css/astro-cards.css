@@ -9,7 +9,7 @@
 .astro-card:nth-child(2) .astro-card__face { background: #e7eee9; }
 .astro-card:nth-child(3) .astro-card__face { background: #eee4d6; }
 .astro-card__face::before { content: ""; position: absolute; inset: 8px; border: 1px solid var(--line); border-radius: 14px; pointer-events: none; }
-.astro-card__symbol { display: grid; place-items: center; width: 65%; aspect-ratio: 1; border: 1px solid var(--sage); border-radius: 50%; color: var(--sage-deep); font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); }
+.astro-card__symbol { display: grid; place-items: center; width: 65%; aspect-ratio: 1; border: 1px solid var(--sage); border-radius: 50%; color: var(--sage-deep); font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", serif; font-size: clamp(2rem, 5vw, 3.5rem); }
 .astro-card__name { margin: 16px 0 4px; font-family: var(--font-serif); font-size: 1.3rem; }
 .astro-card__theme { color: var(--ink-soft); font-size: 0.85rem; }
 .astro-card__role { margin: 12px 0 0; color: var(--sage-deep); font-size: 0.8rem; letter-spacing: 0.08em; }
