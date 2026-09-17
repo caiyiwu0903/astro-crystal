@@ -8,11 +8,11 @@
     <meta name="theme-color" content="#fbf9f5">
     <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
     <link rel="stylesheet" href="assets/css/styles.css?v=20260917-cards-nav">
-    <link rel="stylesheet" href="assets/css/astro-cards.css?v=1">
+    <link rel="stylesheet" href="assets/css/astro-cards.css?v=2">
     <script src="assets/js/main.js" defer></script>
-    <script src="assets/js/astro-cards-data.js?v=1" defer></script>
-    <script src="assets/js/astro-cards-engine.js?v=1" defer></script>
-    <script src="assets/js/astro-cards.js?v=1" defer></script>
+    <script src="assets/js/astro-cards-data.js?v=2" defer></script>
+    <script src="assets/js/astro-cards-engine.js?v=2" defer></script>
+    <script src="assets/js/astro-cards.js?v=2" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">跳至主要內容</a>
@@ -70,6 +70,13 @@
                 <label class="astro-cards__mode"><input type="radio" name="mode" value="career"><span>工作／生涯</span></label>
               </div>
             </fieldset>
+            <div class="astro-cards__prompt">
+              <label for="cards-input">你想問什麼？<span class="muted">（選填）</span></label>
+              <textarea id="cards-input" rows="3" aria-describedby="cards-input-help cards-count" placeholder="例如：我想換工作，但擔心不適應，該怎麼準備？"></textarea>
+              <p id="cards-count" role="status">0 / 50 字</p>
+              <p id="cards-input-help" class="muted">最多 50 字。問題只留在此頁，重新整理即清除；複製結果會包含問題，分享牌組網址不包含問題。</p>
+              <button id="cards-update" class="button button--outline" type="button" hidden>用這個問題重新解讀</button>
+            </div>
             <button class="button button--primary" type="submit" id="cards-draw">抽一組牌</button>
           </form>
           <p id="cards-status" class="astro-cards__status" role="status"></p>
@@ -78,6 +85,7 @@
             <div class="astro-cards__reading">
               <span id="cards-result-mode" class="eyebrow"></span>
               <h2 id="cards-title"></h2>
+              <p id="cards-asked" class="astro-cards__asked" hidden></p>
               <div id="cards-paragraphs"></div>
               <div class="astro-cards__reminder"><strong>放心提醒</strong><p id="cards-reminder"></p></div>
               <p class="muted">留給自己的一個問題</p>

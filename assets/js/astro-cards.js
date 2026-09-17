@@ -7,6 +7,21 @@
   const shareStatus = document.querySelector("#cards-share-status");
   const manual = document.querySelector("#cards-manual");
   const manualText = document.querySelector("#cards-manual-text");
+  const questionInput = document.querySelector("#cards-input");
+  const updateButton = document.querySelector("#cards-update");
+  let activeQuestion = "";
+  let composing = false;
+  function syncQuestion() {
+    if (composing) return;
+    questionInput.value = engine.limitQuestion(questionInput.value);
+    const count = typeof Intl.Segmenter === "function"
+      ? Array.from(new Intl.Segmenter("zh", { granularity: "grapheme" }).segment(questionInput.value)).length
+      : Array.from(questionInput.value).length;
+    document.querySelector("#cards-count").textContent = `${count} / 50 字`;
+  }
+  questionInput.addEventListener("compositionstart", () => { composing = true; });
+  questionInput.addEventListener("compositionend", () => { composing = false; syncQuestion(); });
+  questionInput.addEventListener("input", syncQuestion);
   let selection = null;
   let revision = 0;
   const roles = ["WHAT · 什麼能量", "HOW · 如何表現", "WHERE · 人生領域"];
@@ -18,7 +33,7 @@
   }
   function render() {
     revision += 1;
-    const reading = engine.interpret(selection);
+    const reading = engine.interpret(selection, activeQuestion);
     const spread = document.querySelector("#cards-spread");
     spread.replaceChildren();
     reading.cards.forEach((card, index) => {
@@ -40,6 +55,10 @@
     });
     document.querySelector("#cards-result-mode").textContent = reading.mode;
     document.querySelector("#cards-title").textContent = reading.title;
+    const asked = document.querySelector("#cards-asked");
+    asked.textContent = reading.asked ? `你想問的是：${reading.asked}` : "";
+    asked.hidden = !reading.asked;
+    updateButton.hidden = false;
     document.querySelector("#cards-paragraphs").replaceChildren(...reading.paragraphs.map(text => element("p", "", text)));
     document.querySelector("#cards-reminder").textContent = reading.reminder;
     document.querySelector("#cards-question").textContent = reading.question;
@@ -56,6 +75,10 @@
     const parsed = engine.readQuery(location.search);
     form.elements.mode.value = parsed.mode;
     selection = parsed.selection;
+    activeQuestion = "";
+    questionInput.value = "";
+    syncQuestion();
+    updateButton.hidden = !selection;
     status.textContent = parsed.invalid ? "這個連結的牌組資料不完整或無效，請重新抽一組牌。" : "";
     manual.hidden = true;
     shareStatus.textContent = "";
@@ -64,6 +87,9 @@
   }
   form.addEventListener("submit", event => {
     event.preventDefault();
+    if (composing) return;
+    syncQuestion();
+    activeQuestion = questionInput.value.trim();
     selection = engine.draw(form.elements.mode.value);
     status.textContent = "已抽出三張牌，可以慢慢閱讀此刻的訊息。";
     render();
@@ -71,7 +97,15 @@
     result.focus({ preventScroll: true });
     result.scrollIntoView({ behavior: "auto", block: "start" });
   });
-  form.addEventListener("change", () => {
+  updateButton.addEventListener("click", () => {
+    if (!selection || composing) return;
+    syncQuestion();
+    activeQuestion = questionInput.value.trim();
+    render();
+    status.textContent = "已用你的問題重新解讀，保留同一組牌。";
+  });
+  form.addEventListener("change", event => {
+    if (event.target.name !== "mode") return;
     status.textContent = selection ? "已切換模式，保留同一組牌，從不同角度閱讀。" : "";
     if (selection) { selection = { ...selection, mode: form.elements.mode.value }; render(); updateUrl(); }
   });
@@ -95,7 +129,7 @@
     else shareStatus.textContent = "自動複製無法使用，請長按或選取下方文字複製。";
   }
   document.querySelector("#cards-copy").addEventListener("click", () => {
-    if (selection) copy(engine.text(selection, location.href), "已複製完整結果與牌組網址。");
+    if (selection) copy(engine.text(selection, location.href, activeQuestion), "已複製完整結果（含你的問題）與牌組網址。");
   });
   document.querySelector("#cards-copy-url").addEventListener("click", () => {
     if (selection) copy(engine.url(selection, location.href), "已複製固定牌組網址。");
