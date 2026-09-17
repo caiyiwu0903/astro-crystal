@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>放心占星牌卡｜放心占星相談所</title>
+    <meta name="description" content="星體 × 星座 × 宮位，抽一組屬於此刻的指引。透過今日訊息、感情與工作／生涯三種模式，看見更多可能。">
+    <meta name="theme-color" content="#fbf9f5">
+    <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-cards-nav">
+    <link rel="stylesheet" href="assets/css/astro-cards.css?v=1">
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/astro-cards-data.js?v=1" defer></script>
+    <script src="assets/js/astro-cards-engine.js?v=1" defer></script>
+    <script src="assets/js/astro-cards.js?v=1" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳至主要內容</a>
+    <header class="site-header">
+      <nav class="nav container" aria-label="主要導覽">
+        <a class="brand" href="index.html" aria-label="放心占星相談所首頁">
+          <img class="brand__mark" src="assets/images/xingxin-avatar-circle.png" alt="" width="48" height="48">
+          <span class="brand__text">
+            <span class="brand__name">放心占星相談所</span>
+            <span class="brand__sub">Astro Crystal・星心</span>
+          </span>
+        </a>
+        <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="開啟選單">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav__links" id="primary-menu" data-open="false">
+          <li><a href="index.html">首頁</a></li>
+          <li><a href="course.html">專業課程</a></li>
+          <li><a href="consultation.html">星盤諮詢</a></li>
+          <li><a href="articles.html">占星文章</a></li>
+          <li><a href="about.html">關於星心</a></li>
+          <li><a href="astro-cards.html" aria-current="page">牌卡體驗</a></li>
+          <li><a class="button button--primary button--small" href="https://lin.ee/V0K2oHo" target="_blank" rel="noopener noreferrer">LINE 預約</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main" class="astro-cards">
+      <section class="section" aria-labelledby="cards-heading">
+        <div class="container astro-cards__hero">
+          <div>
+            <span class="eyebrow">ASTROLOGY CARDS</span>
+            <h1 id="cards-heading">放心占星牌卡</h1>
+            <p class="astro-cards__subtitle">星體 × 星座 × 宮位</p>
+            <p class="lead">看見自己・理解關係・找到方向</p>
+            <p class="muted">從星辰的智慧，抽一組屬於此刻的指引。<br>讓占星牌卡陪你，看見更多可能，也更靠近真實的自己。</p>
+            <a class="button button--primary" href="#cards-experience">開始抽牌</a>
+          </div>
+          <div class="astro-cards__preview" aria-hidden="true"><div class="astro-card"><div class="astro-card__face"><span class="astro-card__symbol">☉</span><span class="astro-card__name">星體</span><span class="astro-card__theme">什麼能量</span></div></div>
+<div class="astro-card"><div class="astro-card__face"><span class="astro-card__symbol">♍︎</span><span class="astro-card__name">星座</span><span class="astro-card__theme">如何表現</span></div></div>
+<div class="astro-card"><div class="astro-card__face"><span class="astro-card__symbol">07</span><span class="astro-card__name">宮位</span><span class="astro-card__theme">人生領域</span></div></div></div>
+        </div>
+      </section>
+      <section class="section section--tint" id="cards-experience" aria-labelledby="cards-experience-title">
+        <div class="container astro-cards__workspace">
+          <span class="eyebrow">A MOMENT FOR YOURSELF</span>
+          <h2 id="cards-experience-title">留一點時間，給此刻的自己</h2>
+          <p class="muted">選一個想探索的方向，心裡留一個問題。<br>每次抽出星體、星座與宮位各一張，從三個角度理解此刻。</p>
+          <noscript><p>請開啟瀏覽器的 JavaScript，使用抽牌與分享功能。</p></noscript>
+          <form id="cards-form">
+            <fieldset class="astro-cards__modes">
+              <legend>這次，你想探索什麼？</legend>
+              <div class="astro-cards__mode-options">
+                <label class="astro-cards__mode"><input type="radio" name="mode" value="daily" checked><span>今日訊息</span></label>
+                <label class="astro-cards__mode"><input type="radio" name="mode" value="love"><span>感情占卜</span></label>
+                <label class="astro-cards__mode"><input type="radio" name="mode" value="career"><span>工作／生涯</span></label>
+              </div>
+            </fieldset>
+            <button class="button button--primary" type="submit" id="cards-draw">抽一組牌</button>
+          </form>
+          <p id="cards-status" class="astro-cards__status" role="status"></p>
+          <section id="cards-result" class="astro-cards__result" aria-labelledby="cards-title" tabindex="-1" hidden>
+            <div id="cards-spread" class="astro-cards__spread"></div>
+            <div class="astro-cards__reading">
+              <span id="cards-result-mode" class="eyebrow"></span>
+              <h2 id="cards-title"></h2>
+              <div id="cards-paragraphs"></div>
+              <div class="astro-cards__reminder"><strong>放心提醒</strong><p id="cards-reminder"></p></div>
+              <p class="muted">留給自己的一個問題</p>
+              <p id="cards-question" class="astro-cards__question"></p>
+            </div>
+            <div class="button-row astro-cards__actions">
+              <button class="button button--outline" type="button" id="cards-copy">複製結果</button>
+              <button class="button button--outline" type="button" id="cards-share">分享這組牌</button>
+              <button class="button button--outline" type="button" id="cards-copy-url">複製牌組網址</button>
+            </div>
+            <p id="cards-share-status" class="astro-cards__status" role="status"></p>
+            <div id="cards-manual" class="astro-cards__manual" hidden>
+              <label for="cards-manual-text">選取文字後複製</label>
+              <textarea id="cards-manual-text" readonly></textarea>
+            </div>
+          </section>
+          <p class="astro-cards__note">36 張牌，1,728 種組合。這是一份自我探索的邀請，並非對未來的確定預言；你始終保有自己的選擇。</p>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer__grid">
+          <div class="footer__brand">
+            <p class="footer__title">放心占星相談所</p>
+            <p>跟星心一起透過星盤這張地圖，理解自己的天賦、關係與生命節奏。放心占星，放心生活。</p>
+          </div>
+          <div>
+            <p class="footer__title">網站導覽</p>
+            <ul class="footer__links">
+              <li><a href="course.html">專業課程</a></li>
+              <li><a href="consultation.html">星盤諮詢</a></li>
+              <li><a href="articles.html">占星文章</a></li>
+              <li><a href="about.html">關於星心</a></li>
+              <li><a href="astro-cards.html" aria-current="page">牌卡體驗</a></li>
+              <li><a href="privacy.html">隱私與服務聲明</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer__title">聯絡方式</p>
+            <ul class="footer__links">
+              <li><a href="https://lin.ee/V0K2oHo" target="_blank" rel="noopener noreferrer">LINE 官方帳號</a></li>
+              <li><a href="https://www.instagram.com/astrol_crystal/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+              <li><a href="https://www.facebook.com/AstroCrystal2020/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+              <li><a href="mailto:caiyiwu0903@gmail.com">Email</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <span>© <span data-year></span> 放心占星相談所</span>
+          <span>占星服務用於自我理解與人生方向參考，不取代醫療、法律、財務或心理專業意見。</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+/* Feature-only styles; brand tokens, navigation, footer and buttons come from styles.css. */
+.astro-cards [hidden] { display: none !important; }
+.astro-cards__hero { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 48px; }
+.astro-cards__hero h1 { font-size: clamp(2.3rem, 5vw, 3.6rem); }
+.astro-cards__subtitle { color: var(--sage-deep); font-family: var(--font-serif); font-size: 1.3rem; }
+.astro-cards__preview, .astro-cards__spread { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.astro-card { min-width: 0; text-align: center; }
+.astro-card__face { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; aspect-ratio: 3 / 4; padding: 16px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper-deep); box-shadow: var(--shadow-soft); overflow: hidden; }
+.astro-card:nth-child(2) .astro-card__face { background: #e7eee9; }
+.astro-card:nth-child(3) .astro-card__face { background: #eee4d6; }
+.astro-card__face::before { content: ""; position: absolute; inset: 8px; border: 1px solid var(--line); border-radius: 14px; pointer-events: none; }
+.astro-card__symbol { display: grid; place-items: center; width: 65%; aspect-ratio: 1; border: 1px solid var(--sage); border-radius: 50%; color: var(--sage-deep); font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", serif; font-size: clamp(2rem, 5vw, 3.5rem); }
+.astro-card__name { margin: 16px 0 4px; font-family: var(--font-serif); font-size: 1.3rem; }
+.astro-card__theme { color: var(--ink-soft); font-size: 0.85rem; }
+.astro-card__role { margin: 12px 0 0; color: var(--sage-deep); font-size: 0.8rem; letter-spacing: 0.08em; }
+.astro-card__image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.astro-card__face:has(.astro-card__image) .astro-card__name,
+.astro-card__face:has(.astro-card__image) .astro-card__theme { z-index: 1; padding-inline: 6px; background: var(--paper); border-radius: 4px; }
+.astro-cards__preview { padding-block: 18px; }
+.astro-cards__preview .astro-card:nth-child(2) { transform: translateY(-16px); }
+.astro-cards__workspace { max-width: 820px; }
+.astro-cards__workspace h2 { font-size: clamp(1.65rem, 4vw, 2.2rem); }
+.astro-cards__modes { margin: 24px 0; padding: 0; border: 0; }
+.astro-cards__modes legend { margin-bottom: 12px; }
+.astro-cards__mode-options { display: flex; flex-wrap: wrap; gap: 10px; }
+.astro-cards__mode { position: relative; flex: 1; }
+.astro-cards__mode input { position: absolute; opacity: 0; }
+.astro-cards__mode span { display: grid; place-items: center; min-height: 48px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer; white-space: nowrap; background: var(--paper); }
+.astro-cards__mode input:checked + span { color: var(--white); border-color: var(--sage-deep); background: var(--sage-deep); }
+.astro-cards__mode input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 4px; }
+.astro-cards .button { min-height: 48px; cursor: pointer; }
+.astro-cards__status { margin: 16px 0; color: var(--ink-soft); }
+.astro-cards__status:empty { display: none; }
+.astro-cards__result { margin-top: 40px; scroll-margin-top: 106px; }
+.astro-cards__result:focus { outline: none; }
+.astro-cards__reading { margin-top: 36px; padding: clamp(22px, 5vw, 40px); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); }
+.astro-cards__reading p { line-height: 1.95; }
+.astro-cards__reminder { padding: 20px; margin-block: 24px; border-left: 3px solid var(--sage); background: #e7eee9; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.astro-cards__reminder p { margin: 6px 0 0; }
+.astro-cards__question { font-family: var(--font-serif); font-size: 1.15rem; }
+.astro-cards__actions { margin-top: 24px; }
+.astro-cards__manual { margin-top: 20px; }
+.astro-cards__manual textarea { display: block; width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); overflow-wrap: anywhere; }
+.astro-cards__note { margin-top: 28px; color: var(--ink-soft); font-size: 0.9rem; }
+@media (max-width: 960px) {
+  .astro-cards__hero { grid-template-columns: 1fr; gap: 40px; }
+  .astro-cards__preview { width: min(100%, 480px); margin-inline: auto; }
+}
+@media (max-width: 640px) {
+  .astro-cards__spread, .astro-cards__preview { gap: 8px; }
+  .astro-card__face { padding: 14px 5px; border-radius: var(--radius-sm); }
+  .astro-card__face::before { inset: 5px; border-radius: 8px; }
+  .astro-card__name { font-size: 1.06rem; margin-top: 10px; letter-spacing: 0; }
+  .astro-card__theme { font-size: 0.75rem; }
+  .astro-card__role { font-size: 0.72rem; letter-spacing: 0; }
+  .astro-cards__mode-options { gap: 6px; }
+  .astro-cards__mode span { font-size: 0.9rem; padding-inline: 8px; }
+  .astro-cards__actions .button { width: 100%; }
+}
