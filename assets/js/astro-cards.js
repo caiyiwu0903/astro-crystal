@@ -8,6 +8,9 @@
   const manual = document.querySelector("#cards-manual");
   const manualText = document.querySelector("#cards-manual-text");
   const questionInput = document.querySelector("#cards-input");
+  const modeHint = document.querySelector("#cards-mode-hint");
+  let acceptedModeKey = "";
+  function clearModeHint() { modeHint.hidden = true; acceptedModeKey = ""; }
   let activeQuestion = "";
   let composing = false;
   function syncQuestion() {
@@ -20,7 +23,7 @@
   }
   questionInput.addEventListener("compositionstart", () => { composing = true; });
   questionInput.addEventListener("compositionend", () => { composing = false; syncQuestion(); });
-  questionInput.addEventListener("input", syncQuestion);
+  questionInput.addEventListener("input", () => { clearModeHint(); syncQuestion(); });
   let selection = null;
   let revision = 0;
   const roles = ["WHAT · 什麼能量", "HOW · 如何表現", "WHERE · 人生領域"];
@@ -70,6 +73,7 @@
     catch { status.textContent = "此環境無法更新網址；仍可使用下方按鈕複製固定牌組網址。"; }
   }
   function restore() {
+    clearModeHint();
     const parsed = engine.readQuery(location.search);
     form.elements.mode.value = parsed.mode;
     selection = parsed.selection;
@@ -82,10 +86,10 @@
     if (selection) render();
     else { result.hidden = true; revision += 1; document.querySelector("#cards-draw").textContent = "抽一組牌"; }
   }
-  form.addEventListener("submit", event => {
-    event.preventDefault();
+  function drawCards() {
     if (composing) return;
     syncQuestion();
+    modeHint.hidden = true;
     activeQuestion = questionInput.value.trim();
     selection = engine.draw(form.elements.mode.value);
     status.textContent = "已抽出三張牌，可以慢慢閱讀此刻的訊息。";
@@ -93,9 +97,39 @@
     updateUrl();
     result.focus({ preventScroll: true });
     result.scrollIntoView({ behavior: "auto", block: "start" });
+  }
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    if (composing) return;
+    syncQuestion();
+    const mode = form.elements.mode.value;
+    const suggested = engine.suggestMode(questionInput.value, mode);
+    if (suggested && acceptedModeKey !== mode + ":" + questionInput.value.trim()) {
+      const names = window.AstroCardsData.modes;
+      document.querySelector("#cards-mode-hint-text").textContent = `這個問題似乎比較偏向${names[suggested].name}，要切換嗎？也可以保留自己的探索角度。`;
+      document.querySelector("#cards-mode-switch").textContent = `切換到${names[suggested].name}並抽牌`;
+      document.querySelector("#cards-mode-keep").textContent = `維持${names[mode].name}並抽牌`;
+      modeHint.hidden = false;
+      modeHint.focus();
+      return;
+    }
+    drawCards();
+  });
+  document.querySelector("#cards-mode-switch").addEventListener("click", () => {
+    if (composing) return;
+    const suggested = engine.suggestMode(questionInput.value, form.elements.mode.value);
+    if (suggested) form.elements.mode.value = suggested;
+    clearModeHint();
+    drawCards();
+  });
+  document.querySelector("#cards-mode-keep").addEventListener("click", () => {
+    if (composing) return;
+    acceptedModeKey = form.elements.mode.value + ":" + questionInput.value.trim();
+    drawCards();
   });
   form.addEventListener("change", event => {
     if (event.target.name !== "mode") return;
+    clearModeHint();
     status.textContent = selection ? "已切換模式，保留同一組牌，從不同角度閱讀。" : "";
     if (selection) { selection = { ...selection, mode: form.elements.mode.value }; render(); updateUrl(); }
   });
