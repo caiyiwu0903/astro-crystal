@@ -8,7 +8,6 @@
   const manual = document.querySelector("#cards-manual");
   const manualText = document.querySelector("#cards-manual-text");
   const questionInput = document.querySelector("#cards-input");
-  const updateButton = document.querySelector("#cards-update");
   let activeQuestion = "";
   let composing = false;
   function syncQuestion() {
@@ -58,7 +57,6 @@
     const asked = document.querySelector("#cards-asked");
     asked.textContent = reading.asked ? `你想問的是：${reading.asked}` : "";
     asked.hidden = !reading.asked;
-    updateButton.hidden = false;
     document.querySelector("#cards-paragraphs").replaceChildren(...reading.paragraphs.map(text => element("p", "", text)));
     document.querySelector("#cards-reminder").textContent = reading.reminder;
     document.querySelector("#cards-question").textContent = reading.question;
@@ -78,7 +76,6 @@
     activeQuestion = "";
     questionInput.value = "";
     syncQuestion();
-    updateButton.hidden = !selection;
     status.textContent = parsed.invalid ? "這個連結的牌組資料不完整或無效，請重新抽一組牌。" : "";
     manual.hidden = true;
     shareStatus.textContent = "";
@@ -96,13 +93,6 @@
     updateUrl();
     result.focus({ preventScroll: true });
     result.scrollIntoView({ behavior: "auto", block: "start" });
-  });
-  updateButton.addEventListener("click", () => {
-    if (!selection || composing) return;
-    syncQuestion();
-    activeQuestion = questionInput.value.trim();
-    render();
-    status.textContent = "已用你的問題重新解讀，保留同一組牌。";
   });
   form.addEventListener("change", event => {
     if (event.target.name !== "mode") return;
