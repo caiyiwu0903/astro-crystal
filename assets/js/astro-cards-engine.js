@@ -75,7 +75,7 @@
       title: `${how.theme}，在${where.theme}中看見${what.theme}`,
       paragraphs: [
         `${mode.opening}。${what.name}讓焦點回到${what.focus}；搭配${how.name}，你可以試著${how.approach}，看看這樣的方式是否貼近此刻的需要。`,
-        `${where.name}把這個練習帶進${where[selection.mode]}。與其急著替情況下結論，不妨留意：當你用「${how.theme}」的方式面對這個領域時，${what.theme}有哪些被照顧到、又有哪些仍需要調整？`,
+        `${where.name}讓你留意${where[selection.mode]}。回想最近的一個具體情境：哪個部分讓你自在，又有哪個部分需要調整？`,
         `${mode.invitation}${what.action}。從${where.theme}中挑一個具體情境練習，再依實際感受調整步調。你可以只帶走對自己有幫助的部分。`
       ],
       reminder: how.reminder + "。",
@@ -85,11 +85,11 @@
     if (asked) {
       const [, subject, distinction, step] = topics[selection.mode].find(row => row[0].test(asked)) || defaults[selection.mode];
       reading.paragraphs = [
-        `你問：「${asked}」面對${subject}，${what.name}提供的切入點是${what.focus}。搭配${how.name}，可以試著${how.approach}；先分清${distinction}，再看看哪一部分最需要你的照顧。`,
-        `把${subject}放進${where.name}所指向的${where[selection.mode]}來看，可以留意：當你嘗試「${how.theme}」時，是否更容易看清${distinction}？這不是替你的問題預設答案，而是協助你找到可觀察、可核對的線索。`,
-        `針對${subject}，下一步可以${step}。再用${what.name}的提醒——${what.action}——檢查這一步是否符合自己的需要。以「${how.theme}」的步調嘗試，依實際情況調整，不必急著得到完整答案。`
+        `關於${subject}，${what.name}提醒你留意${what.focus}。${how.name}則邀請你${how.approach}，找到自己能接受的步調。`,
+        `${where.name}讓焦點落在${where[selection.mode]}。試著分開看${distinction}，挑一件最近發生的事核對，看看哪些已經清楚、哪些還需要了解。`,
+        `下一步，可以${step}。不必一次處理所有問題，等有了實際經驗，再決定要繼續、調整，或暫時停一下。`
       ];
-      reading.question = `面對${subject}，${where.question}`;
+      reading.question = where.question;
     }
     reading.asked = asked;
     return reading;

@@ -1,4 +1,10 @@
 /* Feature-only styles; brand tokens, navigation, footer and buttons come from styles.css. */
+.astro-cards .button:disabled { cursor: wait; }
+.astro-cards .is-drawing #cards-draw { animation: cards-breathe 650ms ease-in-out; }
+@keyframes cards-breathe { 50% { opacity: 0.72; } }
+@media (prefers-reduced-motion: reduce) {
+  .astro-cards .is-drawing #cards-draw { animation: none; }
+}
 .astro-cards__prompt { margin-block: 24px; }
 .astro-cards__prompt label { display: block; margin-bottom: 8px; }
 .astro-cards__prompt textarea { display: block; width: 100%; padding: 14px; resize: vertical; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); font-size: 1rem; }

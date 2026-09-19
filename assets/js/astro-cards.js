@@ -13,6 +13,15 @@
   function clearModeHint() { modeHint.hidden = true; acceptedModeKey = ""; }
   let activeQuestion = "";
   let composing = false;
+  let drawTimer = null;
+  const drawButton = document.querySelector("#cards-draw");
+  const controls = [...form.querySelectorAll("input, textarea, button"), ...result.querySelectorAll("button")];
+  function setDrawing(busy) {
+    form.setAttribute("aria-busy", String(busy));
+    form.classList.toggle("is-drawing", busy);
+    controls.forEach(control => { control.disabled = busy; });
+    drawButton.textContent = busy ? "正在抽牌…" : selection ? "再抽一組" : "抽一組牌";
+  }
   function syncQuestion() {
     if (composing) return;
     questionInput.value = engine.limitQuestion(questionInput.value);
@@ -73,6 +82,9 @@
     catch { status.textContent = "此環境無法更新網址；仍可使用下方按鈕複製固定牌組網址。"; }
   }
   function restore() {
+    clearTimeout(drawTimer);
+    drawTimer = null;
+    setDrawing(false);
     clearModeHint();
     const parsed = engine.readQuery(location.search);
     form.elements.mode.value = parsed.mode;
@@ -87,20 +99,29 @@
     else { result.hidden = true; revision += 1; document.querySelector("#cards-draw").textContent = "抽一組牌"; }
   }
   function drawCards() {
-    if (composing) return;
+    if (composing || drawTimer !== null) return;
     syncQuestion();
     modeHint.hidden = true;
-    activeQuestion = questionInput.value.trim();
-    selection = engine.draw(form.elements.mode.value);
-    status.textContent = "已抽出三張牌，可以慢慢閱讀此刻的訊息。";
-    render();
-    updateUrl();
-    result.focus({ preventScroll: true });
-    result.scrollIntoView({ behavior: "auto", block: "start" });
+    const question = questionInput.value.trim();
+    const mode = form.elements.mode.value;
+    setDrawing(true);
+    status.textContent = "正在抽牌，留一個呼吸給自己…";
+    drawTimer = setTimeout(() => {
+      drawTimer = null;
+      try {
+        activeQuestion = question;
+        selection = engine.draw(mode);
+        render();
+        updateUrl();
+        status.textContent = "已抽出三張牌，可以慢慢閱讀此刻的訊息。";
+        result.focus({ preventScroll: true });
+        result.scrollIntoView({ behavior: "auto", block: "start" });
+      } finally { setDrawing(false); }
+    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 650);
   }
   form.addEventListener("submit", event => {
     event.preventDefault();
-    if (composing) return;
+    if (composing || drawTimer !== null) return;
     syncQuestion();
     const mode = form.elements.mode.value;
     const suggested = engine.suggestMode(questionInput.value, mode);

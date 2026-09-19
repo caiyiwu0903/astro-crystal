@@ -16,6 +16,7 @@ async function run(type, options, name) {
       await page.goto(base + '/astro-cards.html');
       assert.equal(await page.locator('#cards-result').isVisible(), false);
       await page.locator('#cards-draw').click();
+      await page.waitForFunction(() => document.querySelector('#cards-form').getAttribute('aria-busy') !== 'true');
       assert.equal(await page.locator('#cards-spread article').count(), 3);
       for (const mode of ['love', 'career', 'daily']) {
         await page.locator(`input[value="${mode}"] + span`).click();
