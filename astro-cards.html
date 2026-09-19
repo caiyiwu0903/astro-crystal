@@ -8,12 +8,12 @@
     <meta name="theme-color" content="#fbf9f5">
     <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
     <link rel="stylesheet" href="assets/css/styles.css?v=20260917-cards-nav">
-    <link rel="stylesheet" href="assets/css/astro-cards.css?v=6">
+    <link rel="stylesheet" href="assets/css/astro-cards.css?v=8">
     <script src="assets/js/main.js" defer></script>
     <script src="assets/js/astro-cards-data.js?v=2" defer></script>
     <script src="assets/js/astro-cards-engine.js?v=5" defer></script>
     <script src="assets/js/supabase-config.js" defer></script>
-    <script src="assets/js/astro-cards-stats.js?v=2" defer></script>
+    <script src="assets/js/astro-cards-stats.js?v=3" defer></script>
     <script src="assets/js/astro-cards.js?v=7" defer></script>
   </head>
   <body>
@@ -51,6 +51,7 @@
             <p class="lead">看見自己・理解關係・找到方向</p>
             <p class="muted">從星辰的智慧，抽一組屬於此刻的指引。<br>讓占星牌卡陪你，看見更多可能，也更靠近真實的自己。</p>
             <a class="button button--primary" href="#cards-experience">開始抽牌</a>
+            <p class="astro-cards__count">目前占卜人數 <span data-cards-count>讀取中…</span></p>
           </div>
           <div class="astro-cards__preview" aria-hidden="true"><div class="astro-card"><div class="astro-card__face"><span class="astro-card__symbol">☉</span><span class="astro-card__name">星體</span><span class="astro-card__theme">什麼能量</span></div></div>
 <div class="astro-card"><div class="astro-card__face"><span class="astro-card__symbol">♍︎</span><span class="astro-card__name">星座</span><span class="astro-card__theme">如何表現</span></div></div>
@@ -109,9 +110,7 @@
               <textarea id="cards-manual-text" readonly></textarea>
             </div>
           </section>
-          <div class="astro-cards__reminder">
-            <p>目前占卜人數 <strong id="cards-participant-count" role="status">讀取中…</strong></p>
-          </div>
+          <p class="astro-cards__count">目前占卜人數 <span id="cards-participant-count" data-cards-count role="status">讀取中…</span></p>
           <p class="astro-cards__note">36 張牌，1,728 種組合。這是一份自我探索的邀請，並非對未來的確定預言；你始終保有自己的選擇。</p>
         </div>
       </section>

@@ -50,6 +50,8 @@ const assert = require('node:assert/strict');
     await page.locator('#cards-draw').click();
     await page.waitForFunction(() => document.querySelector('#cards-participant-count').textContent === '1,593');
     assert.equal(ids.size, 5);
+    assert.deepEqual(await page.locator('[data-cards-count]').allTextContents(), ['1,593', '1,593']);
+    assert.ok(await page.locator('.astro-cards__count').first().evaluate(el => parseFloat(getComputedStyle(el).fontSize) < 14));
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     assert.deepEqual(errors, []);
     await context.close();
