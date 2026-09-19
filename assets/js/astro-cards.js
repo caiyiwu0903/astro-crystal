@@ -113,6 +113,7 @@
         selection = engine.draw(mode);
         render();
         updateUrl();
+        document.dispatchEvent(new Event("astro-cards:drawn"));
         status.textContent = "已抽出三張牌，可以慢慢閱讀此刻的訊息。";
         result.focus({ preventScroll: true });
         result.scrollIntoView({ behavior: "auto", block: "start" });
