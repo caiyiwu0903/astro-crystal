@@ -1,4 +1,5 @@
 /* Feature-only styles; brand tokens, navigation, footer and buttons come from styles.css. */
+.astro-cards__count { margin: 14px 0 0; color: var(--ink-soft); font-size: 0.8rem; line-height: 1.6; font-weight: 400; }
 .astro-cards .button:disabled { cursor: wait; }
 .astro-cards .is-drawing #cards-draw { animation: cards-breathe 650ms ease-in-out; }
 @keyframes cards-breathe { 50% { opacity: 0.72; } }

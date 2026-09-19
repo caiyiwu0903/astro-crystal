@@ -1,15 +1,15 @@
 (function () {
   "use strict";
-  const output = document.querySelector("#cards-participant-count");
+  const outputs = document.querySelectorAll("[data-cards-count]");
   const config = window.ASTRO_SUPABASE;
-  if (!output || !config?.url || !config?.publishableKey) return;
+  if (!outputs.length || !config?.url || !config?.publishableKey) return;
   let displayed = 0;
   const pendingDraws = [];
   let sending = false;
   function show(count) {
     if (!Number.isSafeInteger(count) || count < 1588) throw new Error("Invalid count");
     displayed = Math.max(displayed, count);
-    output.textContent = new Intl.NumberFormat("zh-TW").format(displayed);
+    outputs.forEach(output => { output.textContent = new Intl.NumberFormat("zh-TW").format(displayed); });
   }
   async function request(method, body = {}) {
     const controller = new AbortController();
@@ -45,6 +45,6 @@
   });
   window.addEventListener("online", flushDraws);
   request("get_astro_card_participant_count").catch(() => {
-    if (!displayed) output.textContent = "暫時無法讀取";
+    if (!displayed) outputs.forEach(output => { output.textContent = "暫時無法讀取"; });
   });
 }());
