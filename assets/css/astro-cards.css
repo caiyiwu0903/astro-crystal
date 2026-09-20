@@ -55,6 +55,18 @@
 .astro-cards__manual { margin-top: 20px; }
 .astro-cards__manual textarea { display: block; width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); overflow-wrap: anywhere; }
 .astro-cards__note { margin-top: 28px; color: var(--ink-soft); font-size: 0.9rem; }
+.single-options { display: grid; gap: 10px; margin-bottom: 20px; }
+.single-options label { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); cursor: pointer; }
+.single-options input, .single-consent input { flex: 0 0 auto; accent-color: var(--sage-deep); width: 20px; height: 20px; }
+.single-consent { display: flex; align-items: flex-start; gap: 12px; margin: 24px 0; font-size: .9rem; }
+.single-card { width: min(200px, 70%); margin-inline: auto; }
+#single-panel { overflow-wrap: anywhere; }
+#single-panel [hidden] { display: none; }
+#single-panel button:disabled { opacity: .6; cursor: wait; }
+#single-panel [aria-busy="true"] { opacity: .75; transition: opacity .25s ease; }
+#single-reset { margin-top: 24px; }
+#single-reading h4 { margin-top: 28px; margin-bottom: 8px; color: var(--sage-deep); }
+@media (prefers-reduced-motion: reduce) { #single-panel [aria-busy="true"] { transition: none; } }
 @media (max-width: 960px) {
   .astro-cards__hero { grid-template-columns: 1fr; gap: 40px; }
   .astro-cards__preview { width: min(100%, 480px); margin-inline: auto; }

@@ -1,6 +1,10 @@
 (function () {
   "use strict";
   const outputs = document.querySelectorAll("[data-cards-count]");
+  if (window.AstroCardsPreview?.disableStatistics) {
+    outputs.forEach(output => { output.textContent = "本機預覽不計入"; });
+    return;
+  }
   const config = window.ASTRO_SUPABASE;
   if (!outputs.length || !config?.url || !config?.publishableKey) return;
   let displayed = 0;

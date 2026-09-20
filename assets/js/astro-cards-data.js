@@ -53,5 +53,5 @@
     love: { name: "感情占卜", opening: "無論你正在認識誰，或想理解自己的相處方式，這組牌邀請你先回到自己的感受", invitation: "在下一次互動前，可以先" },
     career: { name: "工作／生涯", opening: "面對工作與方向的選擇，這組牌提供一個整理思緒的切入點", invitation: "面對接下來的安排，可以先" }
   };
-  window.AstroCardsData = Object.freeze({ what: Object.freeze(what), how: Object.freeze(how), where: Object.freeze(where), modes: Object.freeze(modes) });
+  (typeof window === "undefined" ? globalThis : window).AstroCardsData = Object.freeze({ what: Object.freeze(what), how: Object.freeze(how), where: Object.freeze(where), modes: Object.freeze(modes) });
 }());
