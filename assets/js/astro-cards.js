@@ -1,6 +1,7 @@
 (function () {
   "use strict";
   const engine = window.AstroCardsEngine;
+  const contextLayer = window.AstroCardsContext;
   const form = document.querySelector("#cards-form");
   const result = document.querySelector("#cards-result");
   const status = document.querySelector("#cards-status");
@@ -8,14 +9,13 @@
   const manual = document.querySelector("#cards-manual");
   const manualText = document.querySelector("#cards-manual-text");
   const questionInput = document.querySelector("#cards-input");
-  const modeHint = document.querySelector("#cards-mode-hint");
-  let acceptedModeKey = "";
-  function clearModeHint() { modeHint.hidden = true; acceptedModeKey = ""; }
+  const questionContext = window.AstroQuestionContext;
   let activeQuestion = "";
+  let activeContext = null;
   let composing = false;
   let drawTimer = null;
   const drawButton = document.querySelector("#cards-draw");
-  const controls = [...form.querySelectorAll("input, textarea, button"), ...result.querySelectorAll("button")];
+  const controls = [...form.querySelectorAll("input, textarea, select, button"), ...result.querySelectorAll("button")];
   function setDrawing(busy) {
     form.setAttribute("aria-busy", String(busy));
     form.classList.toggle("is-drawing", busy);
@@ -32,7 +32,7 @@
   }
   questionInput.addEventListener("compositionstart", () => { composing = true; });
   questionInput.addEventListener("compositionend", () => { composing = false; syncQuestion(); });
-  questionInput.addEventListener("input", () => { clearModeHint(); syncQuestion(); });
+  questionInput.addEventListener("input", () => { syncQuestion(); });
   let selection = null;
   let revision = 0;
   const roles = ["WHAT · 什麼能量", "HOW · 如何表現", "WHERE · 人生領域"];
@@ -44,7 +44,8 @@
   }
   function render() {
     revision += 1;
-    const reading = engine.interpret(selection, activeQuestion);
+    const display = contextLayer.interpret(selection, activeQuestion, activeContext);
+    const reading = display.reading;
     const spread = document.querySelector("#cards-spread");
     spread.replaceChildren();
     reading.cards.forEach((card, index) => {
@@ -69,7 +70,11 @@
     const asked = document.querySelector("#cards-asked");
     asked.textContent = reading.asked ? `你想問的是：${reading.asked}` : "";
     asked.hidden = !reading.asked;
-    document.querySelector("#cards-paragraphs").replaceChildren(...reading.paragraphs.map(text => element("p", "", text)));
+    document.querySelector("#cards-paragraphs").replaceChildren(
+      ...(display.coreTitle ? [element("h3", "", display.coreTitle)] : []),
+      ...reading.paragraphs.map(text => element("p", "", text)),
+      ...display.sections.flatMap(section => [element("h3", "", section.title), element("p", "", section.text)])
+    );
     document.querySelector("#cards-reminder").textContent = reading.reminder;
     document.querySelector("#cards-question").textContent = reading.question;
     manual.hidden = true;
@@ -85,11 +90,12 @@
     clearTimeout(drawTimer);
     drawTimer = null;
     setDrawing(false);
-    clearModeHint();
+    questionContext.reset();
     const parsed = engine.readQuery(location.search);
     form.elements.mode.value = parsed.mode;
     selection = parsed.selection;
     activeQuestion = "";
+    activeContext = null;
     questionInput.value = "";
     syncQuestion();
     status.textContent = parsed.invalid ? "這個連結的牌組資料不完整或無效，請重新抽一組牌。" : "";
@@ -101,8 +107,8 @@
   function drawCards() {
     if (composing || drawTimer !== null) return;
     syncQuestion();
-    modeHint.hidden = true;
     const question = questionInput.value.trim();
+    const context = question ? questionContext.getConfirmed() : null;
     const mode = form.elements.mode.value;
     setDrawing(true);
     status.textContent = "正在抽牌，留一個呼吸給自己…";
@@ -110,6 +116,7 @@
       drawTimer = null;
       try {
         activeQuestion = question;
+        activeContext = context;
         selection = engine.draw(mode);
         render();
         updateUrl();
@@ -124,34 +131,10 @@
     event.preventDefault();
     if (composing || drawTimer !== null) return;
     syncQuestion();
-    const mode = form.elements.mode.value;
-    const suggested = engine.suggestMode(questionInput.value, mode);
-    if (suggested && acceptedModeKey !== mode + ":" + questionInput.value.trim()) {
-      const names = window.AstroCardsData.modes;
-      document.querySelector("#cards-mode-hint-text").textContent = `這個問題似乎比較偏向${names[suggested].name}，要切換嗎？也可以保留自己的探索角度。`;
-      document.querySelector("#cards-mode-switch").textContent = `切換到${names[suggested].name}並抽牌`;
-      document.querySelector("#cards-mode-keep").textContent = `維持${names[mode].name}並抽牌`;
-      modeHint.hidden = false;
-      modeHint.focus();
-      return;
-    }
-    drawCards();
-  });
-  document.querySelector("#cards-mode-switch").addEventListener("click", () => {
-    if (composing) return;
-    const suggested = engine.suggestMode(questionInput.value, form.elements.mode.value);
-    if (suggested) form.elements.mode.value = suggested;
-    clearModeHint();
-    drawCards();
-  });
-  document.querySelector("#cards-mode-keep").addEventListener("click", () => {
-    if (composing) return;
-    acceptedModeKey = form.elements.mode.value + ":" + questionInput.value.trim();
-    drawCards();
+    questionContext.request(questionInput.value, drawCards);
   });
   form.addEventListener("change", event => {
     if (event.target.name !== "mode") return;
-    clearModeHint();
     status.textContent = selection ? "已切換模式，保留同一組牌，從不同角度閱讀。" : "";
     if (selection) { selection = { ...selection, mode: form.elements.mode.value }; render(); updateUrl(); }
   });
@@ -175,7 +158,7 @@
     else shareStatus.textContent = "自動複製無法使用，請長按或選取下方文字複製。";
   }
   document.querySelector("#cards-copy").addEventListener("click", () => {
-    if (selection) copy(engine.text(selection, location.href, activeQuestion), "已複製完整結果（含你的問題）與牌組網址。");
+    if (selection) copy(contextLayer.text(selection, location.href, activeQuestion, activeContext), "已複製完整結果（含你的問題）與牌組網址。");
   });
   document.querySelector("#cards-copy-url").addEventListener("click", () => {
     if (selection) copy(engine.url(selection, location.href), "已複製固定牌組網址。");

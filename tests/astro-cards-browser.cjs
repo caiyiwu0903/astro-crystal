@@ -11,6 +11,7 @@ async function run(type, options, name) {
     for (const width of [375, 390, 414, 430, 960, 1024, 1440]) {
       const context = await browser.newContext({ viewport: { width, height: 844 }, isMobile: width < 500, hasTouch: width < 500 });
       const page = await context.newPage();
+      await page.addInitScript(() => { window.AstroCardsPreview = { disableStatistics: true }; });
       page.on('pageerror', error => errors.push(name + ': ' + error.message));
       page.on('console', msg => { if (msg.type() === 'error') errors.push(name + ': ' + msg.text()); });
       await page.goto(base + '/astro-cards.html');

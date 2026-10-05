@@ -1,0 +1,70 @@
+const { chromium, webkit } = require('playwright');
+const assert = require('node:assert/strict');
+(async () => {
+  const browser = process.env.CARDS_TEST_WEBKIT ? await webkit.launch({ headless: true }) : await chromium.launch({ channel: 'chrome', headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });
+    const errors = [], requests = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('request', request => requests.push(request.url()));
+    await page.addInitScript(() => { window.AstroCardsPreview = { disableStatistics: true }; });
+    await page.route('**/*', route => route.request().url().startsWith('http://127.0.0.1:4173/') ? route.continue() : route.abort());
+    await page.goto('http://127.0.0.1:4173/astro-cards.html?mode=career&what=P07&how=S01&where=H10');
+    const previous = await page.locator('#cards-paragraphs').innerText();
+    const url = page.url();
+    const input = page.locator('#cards-input');
+    await input.fill('目前要不要離職，如何和同事討論');
+    await page.locator('#cards-draw').click();
+    assert.ok(await page.locator('#question-confirmation').isVisible());
+    assert.match(await page.locator('#question-label').innerText(), /工作生涯.*選擇/);
+    assert.equal(await page.locator('#cards-paragraphs').innerText(), previous);
+    assert.equal(page.url(), url);
+    assert.equal(await page.evaluate(() => AstroQuestionContext.getConfirmed()), null);
+    await page.locator('#question-adjust').click();
+    await page.locator('#question-topic').selectOption('money');
+    await page.locator('#question-intent').selectOption('action');
+    for (const width of [375, 390, 430]) {
+      await page.setViewportSize({ width, height: 812 });
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    }
+    await page.locator('#cards-draw').click();
+    assert.match(await page.locator('#question-label').innerText(), /金錢資源.*下一步/);
+    await page.locator('#question-start').click();
+    await page.waitForFunction(() => document.querySelector('#cards-form').getAttribute('aria-busy') === 'false');
+    const context = await page.evaluate(() => AstroQuestionContext.getConfirmed());
+    assert.equal(context.primaryTopic, 'money'); assert.equal(context.intent, 'action'); assert.equal(context.source, 'manual');
+    assert.equal(context.timeContext, 'current'); assert.equal(context.secondaryTopic, null);
+    assert.equal(await page.locator('#cards-spread article').count(), 3);
+    assert.match(await page.locator('#cards-paragraphs').innerText(), /核心訊息[\s\S]*放回你的金錢問題[\s\S]*現在可以先做什麼/);
+    assert.ok(await page.evaluate(() => {
+      const selection = AstroCardsEngine.readQuery(location.search).selection;
+      const original = AstroCardsEngine.interpret(selection).paragraphs;
+      const displayed = [...document.querySelectorAll('#cards-paragraphs p')].slice(0, 3).map(p => p.textContent);
+      return JSON.stringify(original) === JSON.stringify(displayed);
+    }));
+    const displayedReading = await page.locator('#cards-paragraphs').innerText();
+    assert.equal(await page.evaluate(() => { const value = AstroQuestionContext.getConfirmed(); value.primaryTopic = 'love'; return AstroQuestionContext.getConfirmed().primaryTopic; }), 'money');
+    await page.locator('#cards-draw').click();
+    assert.match(await page.locator('#question-label').innerText(), /金錢資源/);
+    await input.fill('你好');
+    assert.equal(await page.locator('#cards-paragraphs').innerText(), displayedReading);
+    await page.evaluate(() => { Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.copied = text; } } }); });
+    await page.locator('#cards-copy').click();
+    assert.match(await page.evaluate(() => window.copied), /目前要不要離職[\s\S]*放回你的金錢問題[\s\S]*現在可以先做什麼/);
+    assert.ok(await page.locator('#question-confirmation').isHidden());
+    assert.equal(await page.evaluate(() => AstroQuestionContext.getConfirmed()), null);
+    await page.locator('#cards-draw').click();
+    assert.match(await page.locator('#question-sentence').innerText(), /比較開放/);
+    await page.locator('#question-start').click();
+    await page.waitForFunction(() => document.querySelector('#cards-form').getAttribute('aria-busy') === 'false');
+    assert.equal(await page.evaluate(() => AstroQuestionContext.getConfirmed().primaryTopic), 'general');
+    assert.ok(!page.url().includes('question'));
+    await page.reload();
+    assert.equal(await page.evaluate(() => AstroQuestionContext.getConfirmed()), null);
+    assert.equal(await input.inputValue(), '');
+    assert.equal(await page.locator('#cards-paragraphs h3').count(), 0);
+    assert.ok(!requests.some(url => /\/api\/|openai|anthropic|generativelanguage|astro-single/.test(url)));
+    assert.deepEqual(errors, []);
+    console.log('PASS: confirmation before draw, unchanged results, manual override persistence, reset, query privacy, 375–430px, zero AI requests and no JS errors.');
+  } finally { await browser.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });

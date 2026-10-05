@@ -8,15 +8,16 @@
     <meta name="theme-color" content="#fbf9f5">
     <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
     <link rel="stylesheet" href="assets/css/styles.css?v=20260917-cards-nav">
-    <link rel="stylesheet" href="assets/css/astro-cards.css?v=9">
+    <link rel="stylesheet" href="assets/css/astro-cards.css?v=10">
     <script src="assets/js/main.js" defer></script>
     <script src="assets/js/astro-cards-data.js?v=3" defer></script>
     <script src="assets/js/astro-cards-engine.js?v=5" defer></script>
     <script src="assets/js/supabase-config.js" defer></script>
     <script src="assets/js/astro-cards-stats.js?v=4" defer></script>
-    <script src="assets/js/astro-cards.js?v=7" defer></script>
-    <script src="assets/js/astro-single-core.js?v=1" defer></script>
-    <script src="assets/js/astro-single.js?v=1" defer></script>
+    <script src="assets/js/question-classifier.js?v=2" defer></script>
+    <script src="assets/js/question-classifier-ui.js?v=1" defer></script>
+    <script src="assets/js/astro-cards-context.js?v=1" defer></script>
+    <script src="assets/js/astro-cards.js?v=9" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">跳至主要內容</a>
@@ -66,13 +67,6 @@
           <h2 id="cards-experience-title">留一點時間，給此刻的自己</h2>
           <p class="muted">選一個想探索的方向，心裡留一個問題。</p>
           <noscript><p>請開啟瀏覽器的 JavaScript，使用抽牌與分享功能。</p></noscript>
-          <fieldset class="astro-cards__modes" id="cards-experience-picker">
-            <legend>選擇體驗</legend>
-            <div class="astro-cards__mode-options">
-              <label class="astro-cards__mode"><input type="radio" name="experience" value="three" checked><span>三張牌指引</span></label>
-              <label class="astro-cards__mode"><input type="radio" name="experience" value="single"><span>單題提問</span></label>
-            </div>
-          </fieldset>
           <div id="cards-three-panel">
           <p class="muted">抽出星體、星座與宮位各一張，從三個角度理解此刻。</p>
           <form id="cards-form">
@@ -89,13 +83,22 @@
               <textarea id="cards-input" rows="3" aria-describedby="cards-count" placeholder="例如：我想換工作，但擔心不適應，該怎麼準備？"></textarea>
               <p id="cards-count" role="status">0 / 50 字</p>
             </div>
-            <div id="cards-mode-hint" class="astro-cards__reminder" role="group" aria-labelledby="cards-mode-hint-text" tabindex="-1" hidden>
-              <p id="cards-mode-hint-text" role="status"></p>
-              <div class="button-row">
-                <button id="cards-mode-switch" class="button button--primary" type="button"></button>
-                <button id="cards-mode-keep" class="button button--outline" type="button"></button>
+            <section id="question-confirmation" class="astro-cards__reminder" aria-labelledby="question-heading" hidden>
+              <h3 id="question-heading" tabindex="-1"></h3>
+              <p id="question-label"></p>
+              <p id="question-sentence"></p>
+              <p id="question-time" class="muted"></p>
+              <div id="question-adjustments" hidden>
+                <label for="question-topic">問題領域</label>
+                <select id="question-topic"></select>
+                <label for="question-intent">問題方向</label>
+                <select id="question-intent"></select>
               </div>
-            </div>
+              <div class="button-row">
+                <button id="question-start" class="button button--primary" type="button">開始占卜</button>
+                <button id="question-adjust" class="button button--outline" type="button">調整問題方向</button>
+              </div>
+            </section>
             <button class="button button--primary" type="submit" id="cards-draw">抽一組牌</button>
           </form>
           <p id="cards-status" class="astro-cards__status" role="status"></p>
@@ -122,44 +125,8 @@
             </div>
           </section>
           </div>
-          <section id="single-panel" aria-labelledby="single-heading" hidden>
-            <h3 id="single-heading">一個問題，一張牌</h3>
-            <p class="muted">寫下此刻在意的事。需要時，我們會多問一句，陪你找到想釐清的重點。</p>
-            <p id="single-service" class="astro-cards__note" role="status">正在確認解讀服務…</p>
-            <form id="single-form">
-              <div class="astro-cards__prompt">
-                <label for="single-input">你想問什麼？</label>
-                <textarea id="single-input" rows="3" required aria-describedby="single-count single-privacy" placeholder="例如：最近想換工作，但不知道怎麼決定。"></textarea>
-                <p id="single-count" role="status">0 / 50 字</p>
-              </div>
-              <p id="single-privacy" class="astro-cards__note">請避免填入姓名、聯絡方式或其他私密資料。問題不加入分享網址，也不建立問答資料庫。</p>
-              <label id="single-consent-label" class="single-consent" hidden><input type="checkbox" id="single-consent">我同意將這次問題與選項送交 OpenAI 產生解讀。資料依服務商政策處理。</label>
-              <fieldset id="single-followup" class="astro-cards__modes" hidden>
-                <legend id="single-followup-prompt"></legend>
-                <div id="single-options" class="single-options"></div>
-                <button type="button" id="single-edit" class="button button--outline">修改問題</button>
-              </fieldset>
-              <div class="button-row">
-                <button class="button button--primary" type="submit" id="single-submit" disabled>繼續</button>
-                <button class="button button--outline" type="button" id="single-skip" hidden>略過，直接抽牌</button>
-              </div>
-            </form>
-            <p id="single-status" class="astro-cards__status" role="status"></p>
-            <section id="single-result" class="astro-cards__result" aria-labelledby="single-title" tabindex="-1" hidden>
-              <div id="single-card" class="single-card"></div>
-              <div class="astro-cards__reading">
-                <span id="single-source" class="eyebrow"></span>
-                <h3 id="single-title">給此刻的你</h3>
-                <p id="single-asked" class="astro-cards__asked"></p>
-                <p id="single-focus" class="muted" hidden></p>
-                <div id="single-reading"></div>
-                <div class="astro-cards__reminder"><strong>放心提醒</strong><p id="single-reminder"></p></div>
-              </div>
-              <button class="button button--outline" type="button" id="single-reset">再問一題</button>
-            </section>
-          </section>
           <p class="astro-cards__count">目前占卜人數 <span id="cards-participant-count" data-cards-count role="status">讀取中…</span></p>
-          <p class="astro-cards__note">36 張牌，1,728 種組合。這是一份自我探索的邀請，並非對未來的確定預言；你始終保有自己的選擇。</p>
+          <p class="astro-cards__note"><strong>當你對一段關係、一個選擇，或眼前的方向感到困惑，先把問題留在這裡。</strong><br>透過行星、星座與宮位的組合，從不同角度看見此刻的處境、可能忽略的訊息，以及下一步值得思考的方向。<br>這不是替你預言答案，每一次提問，都是一次重新理解自己的機會</p>
         </div>
       </section>
     </main>
