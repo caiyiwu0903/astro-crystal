@@ -15,7 +15,7 @@
     <script src="assets/js/supabase-config.js" defer></script>
     <script src="assets/js/astro-cards-stats.js?v=4" defer></script>
     <script src="assets/js/question-classifier.js?v=2" defer></script>
-    <script src="assets/js/question-classifier-ui.js?v=1" defer></script>
+    <script src="assets/js/question-classifier-ui.js?v=2" defer></script>
     <script src="assets/js/astro-cards-context.js?v=1" defer></script>
     <script src="assets/js/astro-cards.js?v=9" defer></script>
   </head>
@@ -88,6 +88,7 @@
               <p id="question-label"></p>
               <p id="question-sentence"></p>
               <p id="question-time" class="muted"></p>
+              <p id="question-conflict" hidden></p>
               <div id="question-adjustments" hidden>
                 <label for="question-topic">問題領域</label>
                 <select id="question-topic"></select>
@@ -96,6 +97,7 @@
               </div>
               <div class="button-row">
                 <button id="question-start" class="button button--primary" type="button">開始占卜</button>
+                <button id="question-keep-entry" class="button button--outline" type="button" hidden></button>
                 <button id="question-adjust" class="button button--outline" type="button">調整問題方向</button>
               </div>
             </section>
