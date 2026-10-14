@@ -1,0 +1,18 @@
+/* Blend the original mark into a soft, borderless watercolor atmosphere. */
+.logo-showcase {
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 5vw, 52px) 12px;
+  background: #e7eee9 url("../images/brand-sage-gradient.png") center / cover no-repeat;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-mask-image: radial-gradient(ellipse closest-side, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse closest-side, #000 55%, transparent 100%);
+}
+.logo-showcase img {
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+  mix-blend-mode: multiply;
+}
