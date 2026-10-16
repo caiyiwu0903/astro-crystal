@@ -1,3 +1,26 @@
+/* Home-aligned banner geometry, limited to the three marked pages. */
+.ui-aligned .ui-banner {
+  padding-block: clamp(62px, 9vw, 116px) clamp(76px, 11vw, 138px);
+  border-bottom-width: 0;
+}
+.ui-aligned .ui-banner__grid { min-height: 600px; }
+.ui-aligned .ui-banner .hero__title {
+  font-size: clamp(2.35rem, 4.4vw, 4.05rem);
+  line-height: 1.28;
+  letter-spacing: 0.025em;
+  text-wrap: balance;
+}
+.ui-aligned .ui-banner .portrait-card { max-width: 440px; width: 100%; margin-inline: auto; }
+.ui-aligned .ui-banner .portrait-card img { height: 460px; object-fit: contain; }
+@media (max-width: 960px) {
+  .ui-aligned .ui-banner__grid { grid-template-rows: minmax(600px, auto) 600px; }
+  .ui-aligned .ui-banner .hero__copy { align-self: start; }
+}
+@media (max-width: 640px) {
+  .ui-aligned .ui-banner { padding-top: 52px; }
+  .ui-aligned .ui-banner__grid { grid-template-rows: minmax(760px, auto) 600px; }
+}
+
 :root {
   --paper: #fbf9f5;
   --paper-deep: #f3eee6;

@@ -1,0 +1,39 @@
+/* About page: an editorial rhythm for professional experience. */
+.experience__content { max-width: 880px; }
+.experience h2 {
+  max-width: 23em;
+  font-size: clamp(1.65rem, 2.8vw, 2.35rem);
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+}
+.experience__intro {
+  max-width: 42em;
+  margin: 24px 0 0;
+  color: var(--ink-soft);
+  line-height: 1.95;
+}
+.experience__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 44px 0 36px;
+  padding: 30px 0;
+  border-block: 1px solid var(--line);
+}
+.experience__stats > div { display: flex; flex-direction: column; gap: 8px; }
+.experience__stats > div + div { padding-left: 36px; border-left: 1px solid var(--line); }
+.experience__stats dt { color: var(--ink-soft); }
+.experience__stats dd { order: -1; margin: 0; color: var(--sage-deep); }
+.experience__stats dd span {
+  margin-right: 8px;
+  font-family: var(--font-serif);
+  font-size: clamp(2.75rem, 5vw, 3.75rem);
+  line-height: 1.15;
+  color: #738b7c;
+}
+.experience__notes { display: grid; gap: 28px; }
+.experience__notes h3 { margin: 0 0 8px; font-size: 1.1rem; line-height: 1.6; }
+.experience__notes p { margin: 0; color: var(--ink-soft); line-height: 1.95; }
+@media (max-width: 640px) {
+  .experience__stats { grid-template-columns: 1fr; margin-block: 32px; padding-block: 24px; gap: 24px; }
+  .experience__stats > div + div { padding: 24px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+}

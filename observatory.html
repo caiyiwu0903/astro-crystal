@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>即時天象觀測室｜放心占星相談所</title>
+    <meta name="description" content="即時天象觀測室版面預覽：天空、此刻星盤與時間軸。">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#F4FAFF">
+    <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-cards-nav">
+    <link rel="stylesheet" href="assets/css/observatory.css?v=c3a2">
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/vendor/astronomy-2.1.19.min.js" defer></script>
+    <script src="assets/js/observatory-core.js?v=c3a1" defer></script>
+    <script src="assets/js/observatory-chart.js?v=c7b1" defer></script>
+    <script src="assets/js/observatory-sky.js?v=c3a2" defer></script>
+    <script src="assets/js/observatory-allsky.js" defer></script>
+    <script src="assets/js/observatory-sky-renderer.js" defer></script>
+    <script src="assets/js/observatory-aspects.js" defer></script>
+    <script src="assets/js/observatory.js?v=c7b1" defer></script>
+  </head>
+  <body class="observatory-page">
+    <a class="skip-link" href="#main">跳至主要內容</a>
+    <header class="site-header">
+      <nav class="nav container" aria-label="主要導覽">
+        <a class="brand" href="index.html" aria-label="放心占星相談所首頁">
+          <img class="brand__mark" src="assets/images/xingxin-avatar-circle.png" alt="" width="48" height="48">
+          <span class="brand__text"><span class="brand__name">放心占星相談所</span><span class="brand__sub">Astro Crystal・星心</span></span>
+        </a>
+        <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="開啟選單">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav__links" id="primary-menu" data-open="false">
+          <li><a href="index.html">首頁</a></li>
+          <li><a href="consultation.html">星盤諮詢</a></li>
+          <li><a href="course.html">占星課程</a></li>
+          <li><a href="articles.html">占星文章</a></li>
+          <li><a href="astro-cards.html">牌卡體驗</a></li>
+          <li><a href="observatory.html" aria-current="page">天象觀測</a></li>
+          <li><a href="about.html">關於我們</a></li>
+          <li><a class="button button--primary button--small" href="https://lin.ee/V0K2oHo" target="_blank" rel="noopener noreferrer">LINE 預約</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main" class="observatory container">
+      <section class="obs-intro" aria-labelledby="obs-title">
+        <div><p class="obs-eyebrow">THE SKY &amp; THE MOMENT</p><h1 id="obs-title">即時天象觀測室</h1></div>
+        <div class="obs-intro__copy"><p>連結此刻的天空，探索宇宙運行的節奏</p><p>從天空到星盤，觀察時間與位置的關係。</p></div>
+      </section>
+      <p class="obs-notice" id="preview-note"><strong>即時天象觀測室｜持續建置中</strong><br>
+        我們正在打造一個能隨著時間與地點變化，探索天空與星盤的互動空間。<br>
+        目前功能仍在測試與優化階段，未來將陸續完善天象呈現與互動體驗，讓占星學習更直覺、更貼近生活。<br>
+        更多新功能即將推出，敬請期待！
+        <span id="obs-status" role="status"></span>
+      </p>
+
+      <section class="obs-query obs-panel" aria-label="觀測條件" aria-describedby="preview-note">
+        <label>日期與時間<input id="obs-datetime" type="datetime-local" min="2000-01-01T00:00" max="2050-12-31T23:59" step="60" disabled aria-label="觀測日期與時間"></label>
+        <label>觀測地點<select id="obs-city" disabled><option value="taipei">台北，台灣</option><option value="tokyo">東京，日本</option><option value="london">倫敦，英國</option><option value="newyork">紐約，美國</option></select></label>
+        <label>時區<input id="obs-zone" type="text" value="Asia/Taipei" readonly aria-label="觀測城市時區"></label>
+        <button id="obs-update" class="obs-button obs-button--primary" type="button" disabled>↻ 回到此刻</button>
+      </section>
+
+      <section class="obs-sky" aria-labelledby="sky-title">
+        <header class="obs-section-head"><div><h2 id="sky-title"><span aria-hidden="true">◎</span> 當前天空視圖</h2><p id="obs-result-time">觀測時間尚未設定</p></div><select id="obs-sky-mode" class="obs-sky__badge" aria-label="天空顯示模式" disabled><option value="south">南向天空</option><option value="allsky">360°全天空</option></select></header>
+        <div id="obs-sky-plot" class="obs-sky__plot">等待天空座標</div>
+        <div class="obs-landscape" aria-hidden="true"></div>
+
+      </section>
+
+      <div class="obs-data">
+        <section class="obs-planets obs-panel" aria-labelledby="planets-title">
+          <header class="obs-section-head"><h2 id="planets-title"><span aria-hidden="true">♄</span> 行星位置</h2></header>
+          <p class="obs-caption" id="planet-note">十大星體：熱帶地心黃經；R 表示逆行</p>
+          <dl class="obs-planet-list" aria-describedby="planet-note">
+            <div><dt><span aria-hidden="true">☉</span>太陽</dt><dd id="obs-sun">待計算</dd></div>
+            <div><dt><span aria-hidden="true">☽</span>月亮</dt><dd id="obs-moon">待計算</dd></div>
+            <div><dt><span aria-hidden="true">☿</span>水星</dt><dd id="obs-mercury">待計算</dd></div>
+            <div><dt><span aria-hidden="true">♀</span>金星</dt><dd id="obs-venus">待計算</dd></div>
+            <div><dt><span aria-hidden="true">♂</span>火星</dt><dd id="obs-mars">待計算</dd></div>
+            <div><dt><span aria-hidden="true">♃</span>木星</dt><dd id="obs-jupiter">待計算</dd></div>
+            <div><dt><span aria-hidden="true">♄</span>土星</dt><dd id="obs-saturn">待計算</dd></div>
+            <div><dt><span aria-hidden="true">♅</span>天王星</dt><dd id="obs-uranus">待計算</dd></div>
+            <div><dt><span aria-hidden="true">♆</span>海王星</dt><dd id="obs-neptune">待計算</dd></div>
+            <div><dt><span aria-hidden="true">♇</span>冥王星</dt><dd id="obs-pluto">待計算</dd></div>
+          </dl>
+        </section>
+
+        <section class="obs-chart obs-panel" aria-labelledby="chart-title">
+          <header class="obs-section-head"><h2 id="chart-title"><span aria-hidden="true">⊙</span> 此刻星盤</h2><label class="obs-aspect-toggle"><input id="obs-show-aspects" type="checkbox">顯示相位</label><span class="obs-badge">Placidus</span></header>
+          <p class="obs-caption">6°測試設定，非正式古典規則</p>
+          <div id="obs-wheel" class="obs-chart__ring obs-chart__ring--live">等待星盤資料</div>
+          <p class="obs-chart__note"><span id="obs-location">等待觀測地點</span><br>ASC 在左，黃經逆時針增加；星體以不同半徑標記，半徑不代表距離。</p>
+        </section>
+
+        <section class="obs-details obs-panel" aria-labelledby="details-title">
+          <header class="obs-section-head"><h2 id="details-title"><span aria-hidden="true">✧</span> 重點資訊</h2></header>
+          <dl class="obs-axis-list"><div><dt>上升星座 <span>ASC</span></dt><dd id="obs-asc">待計算</dd></div><div><dt>中天星座 <span>MC</span></dt><dd id="obs-mc">待計算</dd></div></dl>
+          <section class="obs-detail-block" aria-labelledby="focus-title"><h3 id="focus-title">Placidus 十二宮頭</h3><p id="obs-cusps">待計算</p></section>
+        </section>
+      </div>
+
+      <section class="obs-timeline obs-panel" aria-labelledby="timeline-title" aria-describedby="preview-note">
+        <div><h2 id="timeline-title">時間軸播放</h2><p class="obs-caption">觀察天空隨時間的變化</p></div>
+        <div class="obs-playback"><button id="obs-prev" type="button" disabled aria-label="前一步">◀</button><button id="obs-play" class="obs-play" type="button" disabled aria-label="播放" aria-pressed="false">▶</button><button id="obs-next" type="button" disabled aria-label="後一步">▶▶</button></div>
+        <label class="obs-slider"><span>觀測時間軸（前後 24 小時，每格 1 小時）</span><input id="obs-range" type="range" min="-24" max="24" step="1" value="0" disabled></label>
+        <div class="obs-timeline__settings"><span id="obs-timeline-time" class="obs-time-empty">時間尚未設定</span><label><span class="obs-caption">步進</span><select disabled aria-label="時間步進"><option>1 小時／步</option></select></label><button class="obs-button" type="button" disabled>返回現在</button></div>
+      </section>
+    </main>
+    <footer class="obs-footer container"><span>放心占星相談所 · 放心占星，放心生活</span><a href="index.html">返回首頁 ↗</a></footer>
+  </body>
+</html>

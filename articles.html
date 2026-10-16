@@ -21,7 +21,7 @@
     <meta name="twitter:description" content="從原典研究、歷史脈絡、基礎學習到本命盤判讀，依照自己的步調理解古典占星。">
     <meta name="twitter:image" content="https://astro-crystal.pages.dev/assets/images/hero-astrologer-v2.webp">
     <link rel="icon" href="assets/images/xingxin-avatar-circle.png">
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260917-cards-nav">
+    <link rel="stylesheet" href="assets/css/styles.css?v=20261010-ui-align">
     <script src="assets/js/main.js" defer></script>
     <script src="assets/js/supabase-config.js" defer></script>
     <script src="assets/js/article-views.js" defer></script>
@@ -73,35 +73,40 @@
       }
     </script>
   </head>
-  <body>
+  <body class="ui-aligned">
     <a class="skip-link" href="#main">跳至主要內容</a>
 
     <header class="site-header">
-      <div class="container nav-wrap">
+      <nav class="nav container" aria-label="主要導覽">
         <a class="brand" href="index.html" aria-label="放心占星相談所首頁">
-          <img src="assets/images/xingxin-avatar-circle.png" alt="" width="48" height="48">
-          <span><strong>放心占星相談所</strong><small>Astro Crystal・星心</small></span>
+          <img class="brand__mark" src="assets/images/xingxin-avatar-circle.png" alt="" width="48" height="48">
+          <span class="brand__text">
+            <span class="brand__name">放心占星相談所</span>
+            <span class="brand__sub">Astro Crystal・星心</span>
+          </span>
         </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-          <span></span><span></span><span></span><span class="sr-only">開啟選單</span>
+        <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="開啟選單">
+          <span></span><span></span><span></span>
         </button>
-        <nav class="site-nav" id="site-nav" aria-label="主要導覽">
-          <a href="index.html">首頁</a>
-          <a href="course.html">專業課程</a>
-          <a href="consultation.html">星盤諮詢</a>
-          <a href="articles.html" aria-current="page">占星文章</a>
-          <a href="about.html">關於星心</a>
-          <a href="astro-cards.html">牌卡體驗</a><a class="button button-small" href="https://lin.ee/V0K2oHo" target="_blank" rel="noopener">LINE 預約</a>
-        </nav>
-      </div>
+        <ul class="nav__links" id="primary-menu" data-open="false">
+          <li><a href="index.html">首頁</a></li>
+          <li><a href="consultation.html">星盤諮詢</a></li>
+          <li><a href="course.html">占星課程</a></li>
+          <li><a href="articles.html" aria-current="page">占星文章</a></li>
+          <li><a href="astro-cards.html">牌卡體驗</a></li>
+          <li><a href="observatory.html">天象觀測</a></li>
+          <li><a href="about.html">關於我們</a></li>
+          <li><a class="button button--primary button--small" href="https://lin.ee/V0K2oHo" target="_blank" rel="noopener">LINE 預約</a></li>
+        </ul>
+      </nav>
     </header>
 
     <main id="main">
-      <section class="page-hero section-soft articles-hero">
-        <div class="container page-hero__content">
-          <span class="eyebrow">Astrology Notes</span>
-          <h1>占星文章</h1>
-          <p class="lead">從原典研究、歷史脈絡到基礎概念與實際判讀，依照清楚的脈絡理解古典占星。</p>
+      <section class="ui-banner page-hero section-soft articles-hero">
+        <div class="container hero__grid ui-banner__grid">
+          <div class="hero__copy"><span class="eyebrow">Astrology Notes</span>
+          <h1 class="hero__title">占星文章</h1>
+          <p class="lead">從原典研究、歷史脈絡到基礎概念與實際判讀，依照清楚的脈絡理解古典占星。</p></div>
         </div>
       </section>
 
