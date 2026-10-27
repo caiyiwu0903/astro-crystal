@@ -56,7 +56,7 @@
         if(a.aspect==='conjunction'&&Math.hypot(p.x-q.x,p.y-q.y)<4) group.append(node('circle',{cx:p.x,cy:p.y,r:2,fill:'none',stroke:colors[a.aspect]}));
         group.append(node('line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,stroke:'transparent','stroke-width':12,'stroke-linecap':'round','pointer-events':'stroke',class:'obs-wheel__aspect-hit'}));
         if(a.aspect==='conjunction') group.append(node('circle',{cx:p.x,cy:p.y,r:7,fill:'transparent','pointer-events':'all',class:'obs-wheel__aspect-hit'}));
-        aspectInteractive.set(key,{group,description,bodies:[a.body1,a.body2]});
+        aspectInteractive.set(key,{group,description,aspect:a,bodies:[a.body1,a.body2]});
         layer.append(group);
       }
       svg.append(layer);
@@ -104,7 +104,18 @@
         group.setAttribute('class','obs-wheel__aspect'+(key===active?' is-active':aspect?' is-muted':''));
         group.setAttribute('aria-pressed',String(key===selected));
       });
-      if(aspect) info.textContent=aspect.description;
+      if(aspect) {
+        // Cache only within this SVG snapshot; no sampling until an aspect is active.
+        if(aspect.dynamicText===undefined) {
+          const names={applying:'入相',separating:'離相',exact:'精確',undetermined:'待判定'};
+          try {
+            const row=globalThis.ObservatoryAspectDynamics.calculate(result,[aspect.aspect])[0];
+            aspect.dynamicText=names[row?.dynamics]||'待判定';
+          } catch { aspect.dynamicText='待判定'; }
+          aspect.group.setAttribute('aria-label',`${aspect.description}｜${aspect.dynamicText}`);
+        }
+        info.textContent=`${aspect.description}｜${aspect.dynamicText}`;
+      }
       if(!active) info.textContent='';
     }
     svg.onclick=()=>{selected=null;hovered=null;highlight();};

@@ -18,6 +18,7 @@
     <script src="assets/js/observatory-allsky.js" defer></script>
     <script src="assets/js/observatory-sky-renderer.js" defer></script>
     <script src="assets/js/observatory-aspects.js" defer></script>
+    <script src="assets/js/observatory-aspect-dynamics.js" defer></script>
     <script src="assets/js/observatory.js?v=c7b1" defer></script>
   </head>
   <body class="observatory-page">
@@ -89,7 +90,7 @@
 
         <section class="obs-chart obs-panel" aria-labelledby="chart-title">
           <header class="obs-section-head"><h2 id="chart-title"><span aria-hidden="true">⊙</span> 此刻星盤</h2><label class="obs-aspect-toggle"><input id="obs-show-aspects" type="checkbox">顯示相位</label><span class="obs-badge">Placidus</span></header>
-          <p class="obs-caption">6°測試設定，非正式古典規則</p>
+          <p class="obs-caption">自訂度數相位容許度</p>
           <div id="obs-wheel" class="obs-chart__ring obs-chart__ring--live">等待星盤資料</div>
           <p class="obs-chart__note"><span id="obs-location">等待觀測地點</span><br>ASC 在左，黃經逆時針增加；星體以不同半徑標記，半徑不代表距離。</p>
         </section>
